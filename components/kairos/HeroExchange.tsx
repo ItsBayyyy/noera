@@ -118,7 +118,13 @@ export function HeroExchange() {
                   {picked ? picked.reply : "Could you send me the report?"}
                 </m.div>
               </AnimatePresence>
-              <span className="relative block">
+              {/* `w-fit` penting di sini: tanda reaksi digambar selebar
+                  pembungkus ini, jadi kalau pembungkusnya ikut melebar sampai
+                  selebar gelembung percakapan, goresannya mendarat jauh di
+                  samping kepala — mengambang di tengah panggung, lepas dari
+                  karakternya. Dikunci ke lebar karakter, goresannya kembali
+                  memeluk wajah. */}
+              <span className="relative block w-fit">
                 <ReactionMarks expression={picked ? picked.reaction : "idle"} />
                 <Character
                   spec={NPC}

@@ -438,16 +438,23 @@ export function ScenarioPlayer({
 
           <div className="relative mt-6 flex flex-1 flex-col-reverse items-center justify-center gap-4 sm:flex-row sm:gap-5">
             <div className="relative shrink-0">
-              <ReactionMarks expression={expression} />
-              <Character
-                spec={scenario.npc.character}
-                expression={expression}
-                talking={talking && !finished}
-                size={variant === "demo" ? 168 : 196}
-                className={`h-auto drop-shadow-[0_14px_24px_rgba(0,0,0,0.35)] ${
-                  variant === "demo" ? "w-[150px] sm:w-[168px]" : "w-[156px] sm:w-[196px]"
-                }`}
-              />
+              {/* Tanda reaksi digambar selebar pembungkusnya sendiri, jadi
+                  karakternya dikurung terpisah dari nama dan perannya di
+                  bawah. Kalau digabung, lebar kotaknya ikut teks peran yang
+                  lebih panjang, dan goresannya mendarat di samping kepala
+                  alih-alih memeluknya. */}
+              <span className="relative mx-auto block w-fit">
+                <ReactionMarks expression={expression} />
+                <Character
+                  spec={scenario.npc.character}
+                  expression={expression}
+                  talking={talking && !finished}
+                  size={variant === "demo" ? 168 : 196}
+                  className={`h-auto drop-shadow-[0_14px_24px_rgba(0,0,0,0.35)] ${
+                    variant === "demo" ? "w-[150px] sm:w-[168px]" : "w-[156px] sm:w-[196px]"
+                  }`}
+                />
+              </span>
               <div className="mt-1 text-center">
                 <p className="text-[14px] font-bold">{scenario.npc.name}</p>
                 <p className="text-[11.5px] text-cream/55">{tr(scenario.npc.role)}</p>

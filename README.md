@@ -3,6 +3,23 @@
 Karya untuk **PNBWDC IntechFest 2026 — Web Design Competition**
 Tema: *Education Technology: Language Learning for Global Community*
 
+## 🔗 Situs langsung — **<https://noera-gamma.vercel.app>**
+
+Tidak perlu memasang apa pun. Buka tautannya, lalu klik **"Jelajahi profil
+contoh"** di halaman [Masuk](https://noera-gamma.vercel.app/signin) — tanpa
+kata sandi, langsung mendarat di skenarionya.
+
+| Halaman | Tautan langsung |
+| --- | --- |
+| Beranda | <https://noera-gamma.vercel.app> |
+| Belajar | <https://noera-gamma.vercel.app/learn> |
+| Komunitas | <https://noera-gamma.vercel.app/community> |
+| Masuk | <https://noera-gamma.vercel.app/signin> |
+| Daftar | <https://noera-gamma.vercel.app/signup> |
+
+Gunakan Chrome atau Edge terbaru — tahap menyimak dan berbicara memakai Web
+Speech API bawaan browser.
+
 > "Berbahasa bukan cuma soal tahu katanya. Ini soal tahu kata yang tepat untuk
 > orang, konteks, budaya, dan momen yang tepat."
 
