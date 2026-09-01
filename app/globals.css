@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   NOERA — design tokens
+   Preserved from the original design: warm cream ground, deep espresso
+   sections, ember accent, rounded cards, generous whitespace.
+   Evolved: editorial serif display face, muted "consequence" palette
+   (sage / slate / clay) that carries meaning instead of decoration.
+   ========================================================================== */
+
+@theme {
+  --color-cream: #fbf8f3;
+  --color-paper: #f3ece1;
+  --color-parchment: #e9dfd0;
+  --color-ink: #1c1512;
+  --color-espresso: #3a2115;
+  --color-espresso-deep: #2a170d;
+  --color-ember: #ff6b35;
+  --color-ember-deep: #c94a12;
+  --color-clay: #b04a19;
+  --color-sage: #3e7c5a;
+  --color-slateblue: #3d6b8c;
+  --color-rose: #b24c3c;
+  --color-mute: #6b5d50;
+  --color-line: #e2d7c7;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-hand: var(--font-caveat), "Segoe Script", cursive;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-drift: drift 9s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* --------------------------------------------------------------------------
+   Reveal saat digulir — dikerjakan CSS, tanpa JavaScript.
+
+   Sebelumnya tiap seksi dibungkus komponen animasi, sehingga HTML dari server
+   berisi 119 elemen ber-opacity:0 yang baru terlihat setelah JS selesai. Di
+   koneksi/CPU lambat itu menahan cat pertama. Sekarang konten selalu terlihat,
+   dan animasinya cuma lapisan tambahan di browser yang mendukungnya.
+   -------------------------------------------------------------------------- */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 26px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+      will-change: opacity, transform;
+    }
+    .reveal-late {
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+/* Masuk sekali di layar pertama — hanya opacity dan transform, jadi tidak
+   pernah memicu layout. */
+@media (prefers-reduced-motion: no-preference) {
+  .enter-up {
+    animation: reveal-up 0.62s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+  .enter-up-delayed {
+    animation: reveal-up 0.7s cubic-bezier(0.2, 0, 0, 1) 0.1s both;
+  }
+}
+
+/* Garis tangan yang menggambar dirinya sendiri — versi CSS, tanpa JS. */
+@keyframes ink-draw {
+  from { stroke-dashoffset: 210; }
+  to { stroke-dashoffset: 0; }
+}
+
+.ink-draw {
+  stroke-dasharray: 210;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ink-draw {
+    animation: ink-draw 0.85s cubic-bezier(0.2, 0, 0, 1) 0.25s both;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sapuan warna yang masuk dari tepi kiri saat tombol disentuh.
+
+   Bukan pergantian warna latar yang memudar di tempat: satu lapisan penuh
+   ditahan di `scaleX(0)` dengan titik tumpu di kiri, lalu direntangkan jadi
+   `scaleX(1)` — sehingga terbaca sebagai satu tarikan yang menyeberang,
+   bukan sebagai warna yang tiba-tiba berganti.
+
+   `overflow: hidden` menjaga sapuannya terpotong rapi mengikuti bentuk pil.
+   Label dibungkus span ber-`z-index` sendiri karena lapisan sapuan berposisi
+   absolut: tanpa itu ia akan tergambar di atas teksnya sendiri.
+
+   Warna sapuan sengaja dipilih yang masih aman untuk warna teks yang sedang
+   berjalan, jadi labelnya tidak perlu ikut berganti warna. Kalau warnanya
+   ditukar di tengah sapuan, akan ada sekejap teks bertabrakan dengan latar
+   yang belum tersapu.
+   -------------------------------------------------------------------------- */
+.btn-wipe {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-wipe > span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--wipe, var(--color-ink));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.btn-wipe:hover::before,
+.btn-wipe:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* Tanpa gerak, sapuannya langsung penuh — keadaan hover tetap tersampaikan,
+   yang hilang cuma perjalanannya. */
+@media (prefers-reduced-motion: reduce) {
+  .btn-wipe::before {
+    transition: none;
+  }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -12px, 0) rotate(2deg); }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Fokus papan ketik.
+
+   Satu aturan untuk seluruh produk, memakai warna aksen yang sudah ada supaya
+   cincinnya terbaca sebagai bagian desain, bukan gaya bawaan browser.
+   `:focus-visible` hanya menyala untuk papan ketik, jadi klik tetikus tidak
+   pernah meninggalkan cincin di tombol. Radiusnya mengikuti elemen induknya —
+   penting di sini, karena hampir setiap permukaan Noera berbentuk pil atau
+   kartu bersudut besar.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-ember-deep);
+  outline-offset: 3px;
+  border-radius: inherit;
+  /* Cincinnya muncul seketika. Banyak permukaan di sini memakai
+     `transition-colors`, dan Tailwind memasukkan `outline-color` ke dalam
+     properti yang dianimasikan — sehingga cincin fokus sempat mengambang dari
+     `currentColor` dan tampil sewarna teksnya sendiri. Penanda fokus tidak
+     boleh perlu waktu untuk terbaca. */
+  transition-property: none;
+}
+
+/* Di atas ground espresso, jingga tua kurang terpisah dari latarnya; krem
+   memberi kontras yang sama tegasnya tanpa mengganti bahasa visualnya. */
+.bg-espresso :focus-visible,
+.bg-espresso-deep :focus-visible {
+  outline-color: var(--color-cream);
+}
+
+/* Paper grain — the "hand-made" substrate under the whole product.
+   One repeating SVG noise tile, no image request. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Editorial display type: tight, confident, never cute. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+/* The hand-written annotation voice. Sparing use only — margin notes,
+   reaction labels, stage directions. Never body copy, never UI labels. */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Label kecil di seluruh produk: penanda seksi, label borang, dan judul
+   kolom angka. Pada 10px huruf kapital berspasi lebar, teksnya sudah di batas
+   bawah keterbacaan — terutama sebagai label borang. Naik ke 11px sambil
+   sedikit merapatkan spasi hurufnya: lebarnya nyaris tidak berubah, jadi tata
+   letak yang rapat tetap aman, tapi teksnya jadi jelas lebih terbaca. */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Hand-drawn underline that draws itself when its section is revealed. */
+.ink-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ruang untuk bilah navigasi bawah di layar kecil, termasuk area aman
+   iPhone, supaya konten dan footer tidak pernah tertutup. */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(62px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .grain::after { opacity: 0.2; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
