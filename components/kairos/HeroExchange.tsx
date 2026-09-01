@@ -195,7 +195,7 @@ export function HeroExchange() {
                   className="mb-3.5 grid grid-cols-3 gap-px overflow-hidden rounded-[1rem] border border-line bg-line"
                 >
                   <Metric
-                    label={t("Akurasi bahasa", "Language accuracy")}
+                    label={t("Ketepatan bahasa", "Language accuracy")}
                     value={`${picked.acc}%`}
                     tone="netral"
                   />

@@ -1,207 +1,214 @@
-# Noera — Learn the language. Understand the moment.
+# Noera — Kuasai bahasanya. Pahami momennya.
 
-Submission for **PNBWDC IntechFest 2026 — Web Design Competition**
-Theme: *Education Technology: Language Learning for Global Community*
+Karya untuk **PNBWDC IntechFest 2026 — Web Design Competition**
+Tema: *Education Technology: Language Learning for Global Community*
 
-> "Language is not only about knowing the words. It is about knowing the right
-> words for the right person, context, culture, and moment."
+> "Berbahasa bukan cuma soal tahu katanya. Ini soal tahu kata yang tepat untuk
+> orang, konteks, budaya, dan momen yang tepat."
 
-Noera is an illustrated **social simulation** for language learners. You do not
-translate sentences — you walk into a room, someone speaks to you, and you pick
-what you would actually say. Then you watch what it did to them.
+Noera adalah **simulasi sosial** berilustrasi untuk pembelajar bahasa. Kamu
+tidak menerjemahkan kalimat — kamu masuk ke sebuah ruangan, seseorang bicara
+padamu, lalu kamu memilih apa yang benar-benar akan kamu ucapkan. Setelah itu
+kamu melihat apa yang kalimat itu lakukan pada orang di depanmu.
 
 ---
 
-## The mechanic: Social Consequence
+## Mekanik intinya: Konsekuensi Sosial
 
-Every choice returns three readings instead of "correct / incorrect". These are
-the actual numbers from the landing-page hero, where both options are
-grammatically sound:
+Setiap pilihan mengembalikan tiga bacaan, bukan "benar / salah". Ini angka
+sungguhan dari percakapan di beranda, dan kedua pilihannya sama-sama benar
+secara tata bahasa:
 
-| | Language accuracy | Cultural fit | Relationship |
+| | Ketepatan bahasa | Kecocokan budaya | Hubungan |
 | --- | --- | --- | --- |
 | *"Of course — I'll have it to you by tonight."* | 97% | 94% | +5 |
 | *"Yeah, sure, whenever I get to it."* | 98% | 31% | −9 |
 
-Accuracy is near-identical; the outcome is not. That gap is the whole product.
-Accuracy is deliberately rendered in neutral ink while the other two carry
-colour — because it is not the number that decides anything.
+Ketepatan bahasanya nyaris sama; hasilnya sama sekali tidak. Jarak itulah
+seluruh produk ini. Ketepatan bahasa sengaja ditulis dengan warna tinta netral
+sementara dua kolom lain berwarna — karena bukan angka itu yang menentukan
+hasilnya.
 
-The NPC's face changes **before** the numbers appear: the reaction is immediate,
-the readings follow at 550 ms in the hero and 700 ms in a full scenario, and the
-explanation at 1700 ms. Feel first, read second. A grammatically flawless
-sentence can still cost you a relationship, and the learner is told exactly why
-in one sentence, plus a cultural note.
+Wajah lawan bicara berubah **sebelum** angkanya muncul: reaksinya seketika,
+bacaannya menyusul pada 550 ms di beranda dan 700 ms di dalam skenario penuh,
+lalu penjelasannya pada 1700 ms. Dirasakan dulu, dibaca kemudian. Kalimat yang
+sempurna tata bahasanya tetap bisa merusak sebuah hubungan, dan pembelajar
+diberi tahu persis kenapa dalam satu kalimat, ditambah catatan budaya.
 
-Progression is **Social Reputation**, not XP: six communication attributes
-(Respect, Empathy, Adaptability, Context, Confidence, Cultural Awareness) that
-move only because a person in a scenario reacted to something you said. Tiers:
-Newcomer → Observer → Adapter → Connector → Global Citizen. Each tier opens a
-different *kind* of room, not a badge — Connector unlocks repair scenarios,
-conversations that begin already damaged.
+Progresinya memakai **Reputasi Sosial**, bukan XP: enam atribut komunikasi
+(Respect, Empathy, Adaptability, Context, Confidence, Cultural Awareness) yang
+bergerak hanya karena ada orang di dalam skenario yang bereaksi terhadap
+ucapanmu. Tingkatannya: Newcomer → Observer → Adapter → Connector → Global
+Citizen. Tiap tingkat membuka *jenis* ruangan yang berbeda, bukan lencana —
+Connector membuka skenario perbaikan, percakapan yang sudah rusak sejak awal.
 
-**Global Challenge** is the community mechanic: one situation a week, every
-learner, the same three seconds. Commit to your answer and the split opens —
-overall, then by region, each with a learner explaining why their answer felt
-obvious. Regional data is always framed as tendencies among the people who
-answered, never as a claim about who anyone is.
+**Tantangan Global** adalah mekanik komunitasnya: satu situasi setiap minggu,
+semua pembelajar, tiga detik yang sama. Tetapkan jawabanmu dan sebarannya
+terbuka — total lebih dulu, lalu per wilayah, masing-masing dengan seorang
+pembelajar yang menjelaskan kenapa jawabannya terasa sudah jelas. Data
+wilayahnya selalu disampaikan sebagai kecenderungan orang-orang yang menjawab,
+tidak pernah sebagai klaim tentang siapa pun.
 
-**The Daily Room** is the reason to return: one new social situation each day,
-then a countdown to tomorrow's. No streak to protect, nothing lost by missing a
-day.
+**Ruang Harian** adalah alasan untuk kembali: satu situasi sosial baru tiap
+hari, lalu hitung mundur menuju ruang besok. Tidak ada rentetan hari yang harus
+dijaga, tidak ada yang hilang kalau kamu melewatkan sehari.
 
-## One conversation, six stages
+## Satu percakapan, enam tahap
 
-Every room runs the same loop, and the stage marker names where you are:
+Setiap ruangan menjalankan putaran yang sama, dan penanda tahap menyebutkan di
+mana posisimu:
 
-**Baca** (read) → **Dengar** (listen) → **Pilih** (choose) → **Akibat**
-(consequence) → **Kenapa** (why) → **Ucapkan** (speak)
+**Baca** → **Dengar** → **Pilih** → **Akibat** → **Kenapa** → **Ucapkan**
 
-Each of the six scenarios trains four skills, declared per scenario in
-`lib/kairos/scenarios.ts`:
+Masing-masing dari enam skenario melatih empat keterampilan, yang ditulis per
+skenario di `lib/kairos/scenarios.ts`:
 
-| Skill | Where it happens |
+| Keterampilan | Tempatnya |
 | --- | --- |
-| Reading | "Read the room" — a message arrives; answer what is *actually* being asked, not what the vocabulary says |
-| Listening | "Hear how he says it" — `speechSynthesis` reads the line aloud |
-| Speaking | Say the sentence into the microphone — `SpeechRecognition` |
-| Culture | The cultural note after every consequence |
+| Membaca | "Baca ruangannya" — sebuah pesan masuk; jawab apa yang *sebenarnya* diminta, bukan apa yang tertulis |
+| Menyimak | "Dengar cara dia bicara" — `speechSynthesis` membacakan kalimatnya |
+| Berbicara | Ucapkan kalimatnya lewat mikrofon — `SpeechRecognition` |
+| Budaya | Catatan budaya setelah setiap konsekuensi |
 
-The reply options stay hidden until you commit a prediction about the reaction.
-Showing both at once turns the exercise into "guess the answer" instead of
-"read the room".
+Pilihan jawaban sengaja disembunyikan sampai kamu mengunci tebakan tentang
+reaksinya. Kalau keduanya muncul bersamaan, latihannya berubah jadi "tebak
+jawabannya", bukan "baca ruangannya".
 
-## Pages
+## Halaman
 
-| Route | What it is |
+| Rute | Isinya |
 | --- | --- |
-| `/` | Landing — hero exchange, the insight, the consequence mechanic, an interactive comic, community, the journey map, reputation, CTA |
-| `/learn` | The simulation: 6 scenarios across Tokyo, Berlin, New York, Seoul, Jakarta, Paris |
-| `/community` | Weekly Global Challenge, regional perspective polls, field notes |
-| `/signin`, `/signup` | Deliberately quiet — the product starts on the other side |
+| `/` | Beranda — percakapan di hero, celahnya, mekanik konsekuensi, komik interaktif, komunitas, peta perjalanan, reputasi, ajakan |
+| `/learn` | Simulasinya: 6 skenario di Tokyo, Berlin, New York, Seoul, Jakarta, Paris |
+| `/community` | Tantangan Global mingguan, jajak pendapat antarwilayah, catatan lapangan |
+| `/signin`, `/signup` | Sengaja dibuat tenang — produknya dimulai di sisi seberang |
 
-Responsive targets verified at **393×852**, **820×1180** and **1440×1024**:
-no horizontal overflow and no console errors on any of the five routes at any
-of the three sizes. Below 1024 px the main navigation moves to a bottom bar
-within thumb reach; the top bar keeps only the wordmark and the language
-toggle.
+Diuji responsif pada **393×852**, **820×1180**, dan **1440×1024**: tidak ada
+pengguliran horizontal dan tidak ada galat konsol di kelima halaman pada ketiga
+ukuran. Di bawah 1024 px navigasi utama pindah ke bilah bawah supaya terjangkau
+jempol; bilah atas hanya menyisakan logo dan pemilih bahasa.
 
-## Language
+## Bahasa
 
-The interface is **Indonesian by default**, with an ID/EN toggle in the navbar
-and footer. The choice is remembered in the browser.
+Antarmukanya memakai **Bahasa Indonesia secara bawaan**, dengan tombol ID/EN di
+bilah navigasi dan di footer. Pilihannya tersimpan di browser.
 
-What deliberately stays in English: the sentences characters speak, the three
-reply options, and the message read during "Read the room". That is the
-material being practised — translating it would delete the lesson. Every
-explanation, cultural note and piece of interface copy is fully translated.
+Yang sengaja tetap berbahasa Inggris: kalimat yang diucapkan karakter, tiga
+pilihan jawaban, dan isi pesan yang dibaca pada tahap "Baca ruangannya". Itu
+materi yang sedang dilatih — menerjemahkannya sama saja menghapus pelajarannya.
+Semua penjelasan, catatan budaya, dan teks antarmuka diterjemahkan penuh.
 
-## For judges: one-click demo login
+## Untuk juri: masuk sekali klik
 
-On **/signin** (and **/signup**) there is an **"Explore a sample profile"**
-button — no password, no form. It loads a profile that already sits mid-journey
-(two conversations lived, two relationships carrying history, Adapter-level
-social reputation) and lands directly on the scenario rather than the top of
-the page. Today's Daily Room and the Global Challenge are deliberately left
-unanswered so both reveals still happen live in front of you. The normal
-email/password form is untouched, directly below it.
+Di **/signin** (dan **/signup**) ada tombol **"Jelajahi profil contoh"** — tanpa
+kata sandi, tanpa formulir. Tombol itu memuat profil yang sudah berjalan (dua
+percakapan sudah dijalani, dua hubungan sudah punya riwayat, reputasi sosial di
+tingkat Adapter) dan mendarat langsung di skenarionya, bukan di puncak halaman.
+Ruang Harian dan Tantangan Global sengaja dibiarkan kosong supaya kedua momen
+pembukaannya tetap terjadi di depan matamu. Formulir email/kata sandi biasa
+tetap utuh, persis di bawahnya.
 
-## Accessibility
+## Aksesibilitas
 
-- Every interactive element has a visible keyboard focus ring (2 px ember,
-  3 px offset) that appears instantly — it is explicitly excluded from the
-  colour transitions, so it never fades in wearing the text colour.
-- The three consequence readings sit in an `aria-live="polite"` region, so the
-  part that actually changes is announced; the rest of the page is not.
-- `prefers-reduced-motion` is honoured throughout, including the reveal pacing:
-  reduced-motion users get the reaction and the numbers at once, because the
-  delay is a pacing device and pacing is what they opted out of.
-- One `<h1>` per page, labels tied to inputs, 44 px minimum touch targets.
+- Setiap elemen interaktif punya cincin fokus papan ketik yang terlihat (2 px
+  warna ember, jarak 3 px) dan muncul seketika — cincinnya dikecualikan dari
+  transisi warna, jadi tidak pernah mengambang dulu dengan warna teksnya.
+- Tiga bacaan konsekuensi berada di dalam wilayah `aria-live="polite"`, jadi
+  bagian yang benar-benar berubah ikut diumumkan; sisa halamannya tidak.
+- `prefers-reduced-motion` dihormati di seluruh produk, termasuk tempo
+  pengungkapan: pengguna yang meminta gerak minimal mendapat reaksi dan
+  angkanya sekaligus, karena jedanya memang alat pengatur tempo — dan tempo itu
+  yang mereka tolak.
+- Satu `<h1>` per halaman, label terhubung ke setiap input, sasaran sentuh
+  minimal 44 px.
 
-## Running it
+## Cara menjalankan
 
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm run build    # production build
-npm run start    # serve the production build
+npm run build    # build produksi
+npm run start    # menyajikan hasil build produksi
 ```
 
-Use a recent Chrome or Edge. Listening and speaking use the browser's built-in
-Web Speech API; if the microphone is denied or unsupported, the speaking step
-degrades to a read-aloud prompt and nothing breaks.
+Gunakan Chrome atau Edge terbaru. Menyimak dan berbicara memakai Web Speech API
+bawaan browser; kalau mikrofonnya ditolak atau tidak didukung, tahap berbicara
+berubah jadi latihan baca nyaring dan tidak ada yang rusak.
 
-Do not run `npm run dev` and `npm run build` at the same time — both write to
-`.next/`, and `tsconfig.json` includes the dev-generated types, so a concurrent
-build can read a half-written file and fail.
+Jangan menjalankan `npm run dev` dan `npm run build` bersamaan — keduanya
+menulis ke `.next/`, dan `tsconfig.json` ikut membaca tipe yang dihasilkan mode
+pengembangan, sehingga build yang berjalan bersamaan bisa membaca berkas yang
+baru ditulis separuh lalu gagal.
 
-No backend, no API keys, no database. Progress (attributes, completed
-scenarios, relationships) lives in `localStorage` under `kairos.progress.v2`
-and can be cleared from the Social Reputation panel.
+Tanpa backend, tanpa kunci API, tanpa basis data. Progresnya (atribut, skenario
+yang selesai, hubungan) disimpan di `localStorage` dengan kunci
+`kairos.progress.v2` dan bisa dihapus lewat panel Reputasi Sosial.
 
-## Structure
+## Struktur
 
 ```
-app/                     routes: page.tsx, learn, community, signin, signup
-  globals.css            design tokens, focus ring, grain, motion
+app/                     rute: page.tsx, learn, community, signin, signup
+  globals.css            token desain, cincin fokus, tekstur kertas, animasi
 components/kairos/
-  Character.tsx          parametric hand-drawn actor: 10 expressions,
-                         blink / breathe / talk, reaction-driven
-  HeroExchange.tsx       the 10-second version of the product, in the hero
-  ScenarioPlayer.tsx     read → listen → choose → consequence → why → speak
-  LearningSpine.tsx      the six-stage marker, in both narrative and inline form
-  ReadTheRoom.tsx        commit a prediction before the options appear
-  ScenarioBrief.tsx      the message that got you into the room
-  Listen.tsx             speechSynthesis, with a silent fallback
-  SpeakPractice.tsx      SpeechRecognition, with a permission-denied path
-  RetryCompare.tsx       say it differently, and compare the two attempts
-  DeliveryReflection.tsx name how you delivered it, after you said it
-  CulturalBasis.tsx      why the room reads it that way
-  ConsequenceComic.tsx   choice → reaction → consequence → next scene, in frames
-  GlobalChallenge.tsx    one situation, every learner, commit-then-reveal
-  PerspectivePoll.tsx    commit-then-reveal regional perspectives
-  DailyRoom.tsx          today's situation + countdown to the next one
-  WorldMap.tsx           the journey: six social systems on one route
-  SocialPortrait.tsx     the communication profile, in sentences not bars
-  TierUp.tsx             the moment a tier opens, and what it opens
-  Onboarding.tsx         five-step tour that points at the real elements
-  RouteTransition.tsx    paper-curtain page transition
-  BottomBar.tsx          thumb-reach navigation below 1024 px
-  Ink.tsx                the hand-drawn layer: notes, arrows, circled emphasis,
-                         and the reaction marks drawn around a character
+  Character.tsx          aktor gambar tangan parametrik: 10 ekspresi,
+                         berkedip / bernapas / bicara, digerakkan reaksi
+  HeroExchange.tsx       versi 10 detik dari produk ini, di beranda
+  ScenarioPlayer.tsx     baca → dengar → pilih → akibat → kenapa → ucapkan
+  LearningSpine.tsx      penanda enam tahap, versi penjelasan dan versi ringkas
+  ReadTheRoom.tsx        kunci tebakan dulu sebelum pilihan jawaban muncul
+  ScenarioBrief.tsx      pesan yang membawamu masuk ke ruangan itu
+  Listen.tsx             speechSynthesis, dengan cadangan yang diam
+  SpeakPractice.tsx      SpeechRecognition, dengan jalur saat izin ditolak
+  RetryCompare.tsx       ucapkan dengan cara lain, lalu bandingkan keduanya
+  DeliveryReflection.tsx sebutkan sendiri bagaimana kamu menyampaikannya
+  CulturalBasis.tsx      kenapa ruangan itu membacanya seperti itu
+  ConsequenceComic.tsx   pilihan → reaksi → akibat → adegan berikutnya
+  GlobalChallenge.tsx    satu situasi, semua pembelajar, jawab dulu baru terbuka
+  PerspectivePoll.tsx    perspektif antarwilayah, jawab dulu baru terbuka
+  DailyRoom.tsx          situasi hari ini + hitung mundur ke ruang besok
+  WorldMap.tsx           perjalanannya: enam sistem sosial dalam satu rute
+  SocialPortrait.tsx     profil komunikasi, ditulis sebagai kalimat bukan bar
+  TierUp.tsx             momen sebuah tingkat terbuka, dan apa yang dibukanya
+  Onboarding.tsx         tur lima langkah yang menunjuk elemen aslinya
+  RouteTransition.tsx    transisi halaman berupa tirai kertas
+  BottomBar.tsx          navigasi jangkauan jempol di bawah 1024 px
+  Ink.tsx                lapisan tinta: catatan, panah, lingkaran penekanan,
+                         dan tanda reaksi di sekeliling karakter
   Meters.tsx, Flag.tsx, ui.tsx, SiteShell.tsx, AuthShell.tsx
-components/motion/       motion primitives
-lib/kairos/              scenarios, polls, destinations, types, i18n,
-                         localStorage state
-scripts/                 package-submission.mjs — builds the submission ZIP
+components/motion/       primitif animasi
+lib/kairos/              skenario, jajak pendapat, tujuan, tipe, i18n,
+                         penyimpanan localStorage
+scripts/                 package-submission.mjs — membungkus ZIP pengumpulan
 ```
 
-`kairos` is the project's internal module namespace and storage key, kept
-stable so saved progress survives; the product is Noera throughout.
+`kairos` adalah nama ruang modul internal sekaligus kunci penyimpanan, sengaja
+dipertahankan supaya progres yang sudah tersimpan tidak hilang; produknya
+bernama Noera di seluruh antarmuka.
 
-Stack: Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · Framer Motion.
-`npx tsc --noEmit` is clean and `npm run build` prerenders all six routes with
-no warnings. Flags, characters, icons and every illustration are hand-built
-SVG; the only raster file in the repository is `app/favicon.ico`. There are no
-photographs and no image dependencies.
+Teknologi: Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · Framer
+Motion. `npx tsc --noEmit` bersih dan `npm run build` memprarender keenam rute
+tanpa peringatan. Bendera, karakter, ikon, dan seluruh ilustrasi dibuat sendiri
+sebagai SVG; satu-satunya berkas raster di repositori ini adalah
+`app/favicon.ico`. Tidak ada foto dan tidak ada ketergantungan gambar.
 
-## Design notes
+## Catatan desain
 
-Warm cream ground (`#fbf8f3`), deep espresso section breaks, ember accent,
-rounded cards, pill eyebrows, generous whitespace, torn/organic section edges,
-an oversized wordmark marquee.
+Latar krem hangat (`#fbf8f3`), jeda seksi espresso pekat, aksen ember, kartu
+bersudut bulat, label pil, ruang kosong yang lega, tepi seksi yang organik, dan
+wordmark raksasa yang berjalan.
 
-Roughly 80% clean editorial UI, 20% hand-drawn interaction language: Caveat is
-used only for margin notes, stage directions and reaction labels — never for UI
-copy or body text. Fraunces carries display type.
+Kira-kira 80% antarmuka editorial yang bersih, 20% bahasa interaksi gambar
+tangan: Caveat hanya dipakai untuk catatan pinggir, arahan panggung, dan label
+reaksi — tidak pernah untuk teks antarmuka atau teks isi. Fraunces membawa
+huruf judul.
 
-The consequence palette is restrained and semantic rather than decorative —
-sage means it landed, clay means it survives, rose means it cost you — and
-every animation is tied to a social signal, so no motion exists for its own
-sake. Flags are drawn in SVG because emoji flags do not render on Windows
-browsers.
+Palet konsekuensinya tertahan dan bermakna, bukan dekoratif — sage berarti
+kalimatnya mendarat, clay berarti selamat, rose berarti ada harganya — dan
+setiap animasi terikat pada satu sinyal sosial, jadi tidak ada gerak yang ada
+untuk dirinya sendiri. Bendera digambar sebagai SVG karena emoji bendera tidak
+tampil di browser Windows.
 
-Card dividers are drawn as cell borders rather than as a 1 px grid gap showing
-the background through: three columns of 1320 px land on fractional widths, and
-a fractional gap can fall between two device pixels and disappear entirely on
-one divider but not the other.
+Pemisah antar kartu digambar sebagai garis tepi kartu, bukan celah 1 px yang
+membiarkan latar tembus: tiga kolom dari lebar 1320 px menghasilkan angka
+pecahan, dan celah pecahan bisa jatuh di antara dua piksel layar lalu hilang
+sama sekali pada satu pemisah tapi tidak pada yang lain.
